@@ -1,0 +1,47 @@
+{
+  "brand": "Replit",
+  "product": "Replit Agent",
+  "category": "Agentic software creation platform",
+  "tagline": "Creativity runs on Replit",
+  "brand_color": "#FF3C00",
+  "voice": {
+    "tone": ["aspirational", "grounded", "human-first", "direct", "energetic"],
+    "say": ["builders", "create", "build", "ship", "ideas", "flow", "vibe coding"],
+    "never_say": ["users", "utilize", "leverage", "cutting-edge", "revolutionize", "seamlessly"]
+  },
+  "channels": ["paid_search", "paid_social", "aso", "lifecycle"],
+  "geos": [
+    {"id": "us", "name": "United States", "budget_pct": 0.50, "cpa_target": 45, "currency": "USD"},
+    {"id": "in", "name": "India", "budget_pct": 0.20, "cpa_target": 8, "currency": "USD"},
+    {"id": "eu", "name": "Europe", "budget_pct": 0.20, "cpa_target": 35, "currency": "USD"},
+    {"id": "latam", "name": "Latin America", "budget_pct": 0.10, "cpa_target": 12, "currency": "USD"}
+  ],
+  "segments": ["developer", "non_technical_builder", "enterprise_team", "student"],
+  "conversion_events": [
+    {"name": "signup", "funnel_position": 1},
+    {"name": "first_app_created", "funnel_position": 2},
+    {"name": "app_deployed", "funnel_position": 3},
+    {"name": "paid_subscription", "funnel_position": 4}
+  ],
+  "total_monthly_budget": 500000,
+  "payback_target_days": 90,
+  "fatigue_thresholds": {
+    "ctr_decline_pct": 20,
+    "ctr_window_days": 14
+  },
+  "cac_alert_thresholds": {
+    "increase_pct": 30,
+    "window_days": 7
+  },
+  "payback_alert_thresholds": {
+    "increase_pct": 25,
+    "window_days": 14
+  },
+  "experiment_defaults": {
+    "confidence_threshold": 0.95,
+    "min_sample_size": 1000,
+    "exploration_rate": 0.15
+  },
+  "created": "2026-03-23",
+  "version": 1
+}

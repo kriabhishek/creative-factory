@@ -1,0 +1,28 @@
+{
+  "last_updated": "2026-03-23T21:45:53.456202",
+  "arms": [
+    {
+      "id": "V-045",
+      "experiment_id": "EXP-008",
+      "alpha": 157,
+      "beta": 6045,
+      "impressions": 6200,
+      "conversions": 156,
+      "allocated_pct": 0.35,
+      "estimated_value": 0.0253
+    },
+    {
+      "id": "V-046",
+      "experiment_id": "EXP-008",
+      "alpha": 199,
+      "beta": 6003,
+      "impressions": 6200,
+      "conversions": 198,
+      "allocated_pct": 0.65,
+      "estimated_value": 0.0321
+    }
+  ],
+  "exploration_rate": 0.15,
+  "total_budget_allocated": 25000,
+  "rebalance_frequency_hours": 6
+}

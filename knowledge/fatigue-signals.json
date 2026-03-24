@@ -1,0 +1,77 @@
+{
+  "last_updated": "2026-03-23T14:00:00Z",
+  "signals": [
+    {
+      "id": "FAT-001",
+      "channel": "paid_social",
+      "geo": "us",
+      "segment": "developer",
+      "onset_days": 14,
+      "decline_pattern": "gradual",
+      "decline_rate_pct_per_day": 2.0,
+      "peak_to_trough_pct": 28,
+      "recommended_refresh_days": 12,
+      "source": "INS-002",
+      "last_observed": "2026-03-22"
+    },
+    {
+      "id": "FAT-002",
+      "channel": "paid_search",
+      "geo": "us",
+      "segment": "developer",
+      "onset_days": 21,
+      "decline_pattern": "cliff",
+      "decline_rate_pct_per_day": 7.0,
+      "peak_to_trough_pct": 35,
+      "recommended_refresh_days": 18,
+      "source": "INS-012",
+      "last_observed": "2026-03-19"
+    },
+    {
+      "id": "FAT-003",
+      "channel": "paid_social",
+      "geo": "us",
+      "segment": "non_technical_builder",
+      "onset_days": 18,
+      "decline_pattern": "gradual",
+      "decline_rate_pct_per_day": 1.5,
+      "peak_to_trough_pct": 22,
+      "recommended_refresh_days": 15,
+      "source": "EXP-005",
+      "last_observed": "2026-03-22"
+    },
+    {
+      "id": "FAT-004",
+      "channel": "paid_search",
+      "geo": "in",
+      "segment": "all",
+      "onset_days": 25,
+      "decline_pattern": "gradual",
+      "decline_rate_pct_per_day": 1.2,
+      "peak_to_trough_pct": 18,
+      "recommended_refresh_days": 21,
+      "source": "EXP-004",
+      "last_observed": "2026-03-21"
+    },
+    {
+      "id": "FAT-005",
+      "channel": "paid_search",
+      "geo": "eu",
+      "segment": "enterprise_team",
+      "onset_days": 28,
+      "decline_pattern": "slow",
+      "decline_rate_pct_per_day": 0.8,
+      "peak_to_trough_pct": 15,
+      "recommended_refresh_days": 25,
+      "source": "EXP-006",
+      "last_observed": "2026-03-22"
+    }
+  ],
+  "refresh_schedule": {
+    "paid_social_us_developer": {"next_refresh": "2026-03-26", "days_since_last": 10},
+    "paid_social_us_non_technical": {"next_refresh": "2026-03-28", "days_since_last": 8},
+    "paid_search_us_developer": {"next_refresh": "2026-04-01", "days_since_last": 12},
+    "paid_search_in_all": {"next_refresh": "2026-04-05", "days_since_last": 9},
+    "paid_search_eu_enterprise": {"next_refresh": "2026-04-10", "days_since_last": 7}
+  }
+}

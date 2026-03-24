@@ -1,0 +1,50 @@
+{
+  "active_alerts": [
+    {
+      "id": "ALT-646",
+      "type": "cac_shift",
+      "severity": "critical",
+      "detected": "2026-03-23T21:45:53.456013",
+      "channel": "paid_search",
+      "geo": "in",
+      "segment": "all",
+      "signal": "CPA increased from $7.01 to $10.17 (+45.1%) in India over 21 days. Target: $8.00.",
+      "recommendation": "Investigate: (1) competitor bid increase (Bolt/Lovable entering India), (2) audience saturation, (3) keyword competition. Recommend shifting 30% of India search budget to social where CPA is stable (INS-021). Also test new geo-specific creatives with 'free' hook (INS-010).",
+      "status": "active"
+    },
+    {
+      "id": "ALT-229",
+      "type": "payback_drift",
+      "severity": "warning",
+      "detected": "2026-03-23T21:45:53.456020",
+      "channel": "paid_social",
+      "geo": "latam",
+      "segment": "all",
+      "signal": "LATAM payback period drifted from 72 to 91 days over 14 days. Approaching 90-day target. Conversion-to-paid rate declining.",
+      "recommendation": "Tighten audience targeting. Consider lifecycle messaging adjustments for LATAM cohort. Review if mobile-first creative is driving low-intent signups.",
+      "status": "active"
+    }
+  ],
+  "alert_rules": {
+    "creative_fatigue": {
+      "metric": "ctr",
+      "decline_pct": 20,
+      "window_days": 14
+    },
+    "cac_shift": {
+      "metric": "cpa",
+      "increase_pct": 30,
+      "window_days": 7
+    },
+    "payback_drift": {
+      "metric": "payback_days",
+      "increase_pct": 25,
+      "window_days": 14
+    },
+    "conversion_quality": {
+      "metric": "signup_to_paid_rate",
+      "decline_pct": 15,
+      "window_days": 7
+    }
+  }
+}
