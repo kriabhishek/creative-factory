@@ -14,8 +14,6 @@ A self-improving creative engine that generates multi-variant ad creatives acros
 
 Built as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill. After 4 simulated cycles: 26 insights, 5 meta-patterns, and hypothesis generation from insight combinations -- all without manual analysis.
 
-![Creative Factory Overview](creative-factory-overview.png)
-
 ## The system
 
 ```
@@ -158,7 +156,6 @@ The key property: cycle N is strictly better than cycle N-1, because the knowled
 creative-factory/
   config.json                    # Brand config: channels, geos, segments, budgets, thresholds
   creative-factory-guide.pdf     # Walkthrough PDF
-  creative-factory-overview.png  # System overview diagram
   creatives/
     DESIGN-SYSTEM.md             # Visual design tokens, layout patterns, platform specs
     *.png                        # Brand screenshots and mockup references
