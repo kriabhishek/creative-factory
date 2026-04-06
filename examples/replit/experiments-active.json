@@ -1,0 +1,140 @@
+{
+  "experiments": [
+    {
+      "id": "EXP-008",
+      "created": "2026-03-22",
+      "cycle": 3,
+      "hypothesis": "Adding 'Parallel AI Agents' capability language to paid search descriptions will increase CTR by >10% for developer segment in US",
+      "hypothesis_source": "INS-015 (specificity wins) + Agent 4 launch",
+      "channel": "paid_search",
+      "geo": "us",
+      "segment": "developer",
+      "type": "ab_test",
+      "variants": {
+        "control": {
+          "id": "V-045",
+          "headline": "AI Code Editor — Build Apps Faster",
+          "description": "Write, test, and deploy code with AI assistance. Used by 85% of Fortune 500.",
+          "status": "running",
+          "impressions": 6200,
+          "clicks": 156,
+          "signups": 24,
+          "first_app": 14,
+          "paid": 3
+        },
+        "treatment": {
+          "id": "V-046",
+          "headline": "Build & Deploy in Under 5 Min",
+          "description": "Parallel AI Agents write, test & deploy simultaneously. Join 50M+ builders.",
+          "status": "running",
+          "impressions": 6200,
+          "clicks": 198,
+          "signups": 31,
+          "first_app": 19,
+          "paid": 5
+        }
+      },
+      "primary_metric": "ctr",
+      "secondary_metrics": ["signup_rate", "first_app_rate", "paid_rate"],
+      "required_sample_size": 15000,
+      "current_sample_size": 12400,
+      "confidence_threshold": 0.95,
+      "current_confidence": 0.89,
+      "status": "running",
+      "estimated_completion": "2026-03-25",
+      "days_running": 1
+    },
+    {
+      "id": "EXP-009",
+      "created": "2026-03-23",
+      "cycle": 3,
+      "hypothesis": "For India student segment on paid social, 'Learn to Build Real Apps — Free Forever' will outperform 'Build Apps with AI — Free' by >25% CTR",
+      "hypothesis_source": "INS-010 (free works in India) + INS-011 (students want learning) + META-001 (geo-specific wins)",
+      "channel": "paid_social",
+      "geo": "in",
+      "segment": "student",
+      "type": "ab_test",
+      "variants": {
+        "control": {
+          "id": "V-047",
+          "headline": "Build Apps with AI — Free",
+          "description": "Create real apps without coding. Start building on Replit today.",
+          "format": "single_image",
+          "status": "running",
+          "impressions": 8400,
+          "clicks": 252,
+          "signups": 42,
+          "first_app": 4,
+          "paid": 0
+        },
+        "treatment": {
+          "id": "V-048",
+          "headline": "Learn to Build Real Apps — Free Forever",
+          "description": "From zero to deployed app. Replit teaches you as it builds with you.",
+          "format": "single_image",
+          "status": "running",
+          "impressions": 8400,
+          "clicks": 378,
+          "signups": 58,
+          "first_app": 9,
+          "paid": 0
+        }
+      },
+      "primary_metric": "ctr",
+      "secondary_metrics": ["signup_rate", "first_app_rate"],
+      "required_sample_size": 20000,
+      "current_sample_size": 16800,
+      "confidence_threshold": 0.95,
+      "current_confidence": 0.97,
+      "status": "running",
+      "estimated_completion": "2026-03-24",
+      "days_running": 0
+    },
+    {
+      "id": "EXP-010",
+      "created": "2026-03-22",
+      "cycle": 3,
+      "hypothesis": "Social creative with before/after transformation format will outperform static feature image by >30% engagement for US non-technical builders",
+      "hypothesis_source": "INS-007 (before/after 2.1x) + INS-014 (UGC wins) + META-004 (non-tech highest growth)",
+      "channel": "paid_social",
+      "geo": "us",
+      "segment": "non_technical_builder",
+      "type": "ab_test",
+      "variants": {
+        "control": {
+          "id": "V-049",
+          "headline": "Build Apps Without Code",
+          "description": "Replit Agent turns your ideas into software. Try free.",
+          "format": "static_image",
+          "status": "running",
+          "impressions": 15000,
+          "clicks": 375,
+          "signups": 68,
+          "first_app": 31,
+          "paid": 7
+        },
+        "treatment": {
+          "id": "V-050",
+          "headline": "I described an app. 3 minutes later, it was live.",
+          "description": "Watch real builders go from idea to deployed app — no code needed.",
+          "format": "video_15s",
+          "status": "running",
+          "impressions": 15000,
+          "clicks": 720,
+          "signups": 115,
+          "first_app": 54,
+          "paid": 14
+        }
+      },
+      "primary_metric": "ctr",
+      "secondary_metrics": ["signup_rate", "first_app_rate", "paid_rate"],
+      "required_sample_size": 30000,
+      "current_sample_size": 30000,
+      "confidence_threshold": 0.95,
+      "current_confidence": 0.99,
+      "status": "ready_to_close",
+      "estimated_completion": "2026-03-23",
+      "days_running": 1
+    }
+  ]
+}

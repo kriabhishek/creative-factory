@@ -1,6 +1,6 @@
 # creative-factory
 
-AI-powered growth marketing creative engine for Claude Code.
+AI-powered growth marketing creative engine for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
 ![Python](https://img.shields.io/badge/Python-%3E%3D3.9-blue)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-Required-orange)
@@ -12,7 +12,7 @@ AI-powered growth marketing creative engine for Claude Code.
 
 A self-improving creative engine that generates multi-variant ad creatives across paid search, paid social, ASO, and lifecycle channels -- then tests them, monitors performance, allocates budget via Thompson Sampling, and feeds every result back into a persistent knowledge layer. The system gets measurably better with every cycle.
 
-Built as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill. After 4 simulated cycles: 26 insights, 5 meta-patterns, and hypothesis generation from insight combinations -- all without manual analysis.
+Built as a Claude Code skill. Works for **any company** -- bring your own positioning document, brand config, and segments. Ships with a complete Replit example in `examples/replit/` showing 3 cycles of compound learning (26 insights, 5 meta-patterns, hypothesis generation from insight combinations).
 
 ## The system
 
@@ -49,54 +49,7 @@ Built as a [Claude Code](https://docs.anthropic.com/en/docs/claude-code) skill. 
     - Budget allocation mathematically optimized for ROI
 ```
 
-## Components
-
-### Knowledge Layer
-
-Append-only intelligence store. Every experiment result, every performance signal, every discovered pattern gets recorded and indexed by channel, geo, and segment. Nothing is overwritten -- history is the asset.
-
-- **insights.json** -- 26+ insights with confidence levels, sample sizes, and applicability tags
-- **creative-dna.json** -- winning and losing patterns extracted from completed experiments
-- **fatigue-signals.json** -- patterns that predict creative decay before CTR drops
-
-### Experiment Framework
-
-Structured A/B testing with statistical rigor. Experiments track hypothesis, control/variant, sample size requirements, and confidence thresholds. When an experiment closes, the system extracts insights, updates creative DNA, generates new hypotheses from pattern combinations, and updates positioning signals.
-
-- **active.json** -- running experiments with live metrics
-- **completed.json** -- closed experiments with final statistics and extracted insights
-- **hypotheses.json** -- queued experiments generated from insight combinations
-
-### Performance Monitoring
-
-Four alert types with configurable thresholds:
-
-| Alert | Trigger | Window |
-|-------|---------|--------|
-| Creative Fatigue | CTR decline >20% | 14 days |
-| CAC Shift | CPA increase >30% | 7 days |
-| Payback Drift | Days-to-payback increase >25% | 14 days |
-| Conversion Quality | Signup-to-paid decline >15% | 7 days |
-
-Each alert includes severity, affected channel/geo, and recommended actions.
-
-### Thompson Sampling
-
-Multi-armed bandit budget allocation via `scripts/thompson.py`. Balances exploitation (shift budget to winners) with exploration (keep sampling underexplored arms). Shows Beta distribution parameters, expected values, allocation shifts, and confidence in winner identification. Arms with >95% confidence of losing get flagged for retirement.
-
-### Creative Generation
-
-Channel-aware generation pipeline that reads the full knowledge layer before producing anything. Every variant cites which insights informed it. Geo modifiers are mandatory -- one-size-fits-all is not an option.
-
-**Channels:** Paid Search (30-char headlines, 90-char descriptions), Paid Social (platform-routed to Meta/LinkedIn/X/YouTube), ASO (keyword-optimized titles), Lifecycle (5-stage activation sequences).
-
-**Geo rules:** US (social proof, no price), India ("Free" in first 3 words), EU (security qualifiers), LATAM (community framing).
-
-### Design System
-
-Brand-compliant mockup generation via Playwright. Six color tokens, four layout patterns (Orange Feature Panel, Dark Product Showcase, Light Testimonial Grid, Hero Banner), platform-specific canvas sizes. See `creatives/DESIGN-SYSTEM.md` for the full spec.
-
-## Getting started
+## Quick start
 
 ```bash
 git clone https://github.com/kriabhishek/creative-factory.git
@@ -112,11 +65,40 @@ cp -r config.json positioning knowledge experiments performance scripts creative
   ~/.claude/data/creative-factory/
 ```
 
-Then open Claude Code:
+Then open Claude Code and run the init wizard:
 
 ```bash
 claude
-# Type: /creative-factory status
+# Type: /creative-factory init
+```
+
+The init wizard walks you through:
+1. Brand name, product, category, tagline, colors
+2. Voice attributes (tone, vocabulary, words to avoid)
+3. Active channels (paid_search, paid_social, aso, lifecycle)
+4. Geos with budget allocation and CPA targets
+5. Customer segments with hooks, pain points, value props
+6. Conversion funnel events
+7. Budget and payback targets
+8. Positioning document import
+9. Design system generation
+
+### Using the Replit example
+
+To see what a fully populated system looks like:
+
+```bash
+# Copy example data over the blank templates
+cp examples/replit/config.json ~/.claude/data/creative-factory/
+cp examples/replit/positioning-active.json ~/.claude/data/creative-factory/positioning/active.json
+cp examples/replit/replit-positioning.md ~/.claude/data/creative-factory/positioning/positioning.md
+cp examples/replit/DESIGN-SYSTEM.md ~/.claude/data/creative-factory/creatives/
+cp examples/replit/insights.json ~/.claude/data/creative-factory/knowledge/
+cp examples/replit/creative-dna.json ~/.claude/data/creative-factory/knowledge/
+cp examples/replit/fatigue-signals.json ~/.claude/data/creative-factory/knowledge/
+cp examples/replit/experiments-active.json ~/.claude/data/creative-factory/experiments/active.json
+cp examples/replit/experiments-completed.json ~/.claude/data/creative-factory/experiments/completed.json
+cp examples/replit/hypotheses.json ~/.claude/data/creative-factory/experiments/
 ```
 
 ### Prerequisites
@@ -150,21 +132,71 @@ The engine runs in cycles. Each cycle:
 
 The key property: cycle N is strictly better than cycle N-1, because the knowledge layer only grows. Insights compound. Hypotheses are derived from proven patterns, not guesses. Positioning reflects observed performance, not assumptions.
 
+## Components
+
+### Knowledge Layer
+
+Append-only intelligence store. Every experiment result, every performance signal, every discovered pattern gets recorded and indexed by channel, geo, and segment. Nothing is overwritten -- history is the asset.
+
+- **insights.json** -- insights with confidence levels, sample sizes, and applicability tags
+- **creative-dna.json** -- winning and losing creative patterns extracted from completed experiments
+- **fatigue-signals.json** -- patterns that predict creative decay before CTR drops
+
+### Experiment Framework
+
+Structured A/B testing with statistical rigor. Experiments track hypothesis, control/variant, sample size requirements, and confidence thresholds. When an experiment closes, the system extracts insights, updates creative DNA, generates new hypotheses from pattern combinations, and updates positioning signals.
+
+### Performance Monitoring
+
+Four alert types with configurable thresholds:
+
+| Alert | Trigger | Window |
+|-------|---------|--------|
+| Creative Fatigue | CTR decline beyond threshold | Configurable (default 14 days) |
+| CAC Shift | CPA increase beyond threshold | Configurable (default 7 days) |
+| Payback Drift | Days-to-payback increase beyond threshold | Configurable (default 14 days) |
+| Conversion Quality | Signup-to-paid decline >15% | 7 days |
+
+Each alert includes severity, affected channel/geo, and recommended actions.
+
+### Thompson Sampling
+
+Multi-armed bandit budget allocation via `scripts/thompson.py`. Balances exploitation (shift budget to winners) with exploration (keep sampling underexplored arms). Shows Beta distribution parameters, expected values, allocation shifts, and confidence in winner identification. Arms with >95% confidence of losing get flagged for retirement.
+
+### Creative Generation
+
+Channel-aware generation pipeline that reads the full knowledge layer before producing anything. Every variant cites which insights informed it. Geo modifiers are mandatory -- one-size-fits-all is not an option.
+
+### Design System
+
+Brand-compliant mockup generation via Playwright. Color tokens, layout patterns, and platform-specific canvas sizes are configured during init. See `creatives/DESIGN-SYSTEM.md`.
+
 ## Data model
 
 ```
 creative-factory/
   config.json                    # Brand config: channels, geos, segments, budgets, thresholds
-  creative-factory-guide.pdf     # Walkthrough PDF
   creatives/
     DESIGN-SYSTEM.md             # Visual design tokens, layout patterns, platform specs
-    *.png                        # Brand screenshots and mockup references
+    brand-assets/                # Brand screenshots, logos, mockup references
+  examples/
+    replit/                      # Complete Replit example (3 cycles, 26 insights)
+      config.json
+      positioning-active.json
+      replit-positioning.md
+      DESIGN-SYSTEM.md
+      insights.json
+      creative-dna.json
+      fatigue-signals.json
+      experiments-active.json
+      experiments-completed.json
+      hypotheses.json
   experiments/
     active.json                  # Running experiments
     completed.json               # Closed experiments with final statistics
     hypotheses.json              # Queued experiments from insight combinations
   knowledge/
-    insights.json                # 26+ insights with confidence, sample size, tags
+    insights.json                # Insights with confidence, sample size, tags
     creative-dna.json            # Winning and losing creative patterns
     fatigue-signals.json         # Patterns that predict creative decay
   performance/
@@ -173,12 +205,12 @@ creative-factory/
     allocation.json              # Thompson Sampling arm states and allocations
   positioning/
     active.json                  # Current messaging hierarchy by segment
-    replit-positioning.md        # Product positioning document
+    positioning.md               # Product positioning document (your company)
   scripts/
     thompson.py                  # Thompson Sampling implementation
     simulate_performance.py      # Mock data generator for testing
   skill/
-    SKILL.md                     # Claude Code skill definition (~330 lines)
+    SKILL.md                     # Claude Code skill definition
 ```
 
 ## License

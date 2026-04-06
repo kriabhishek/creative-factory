@@ -1,0 +1,97 @@
+{
+  "last_updated": "2026-03-23T14:00:00Z",
+  "hooks": {
+    "paid_search": {
+      "developer": {
+        "winning": [
+          {"pattern": "Question-format headlines", "example": "Still deploying manually?", "source": "INS-001", "lift": "+34% CTR"},
+          {"pattern": "Specific time savings", "example": "Build & Deploy in Under 5 Min", "source": "INS-015", "lift": "+22% CTR"},
+          {"pattern": "Capability-specific language", "example": "Parallel AI Agents Build While You Design", "source": "INS-022", "lift": "+11% CTR"}
+        ],
+        "losing": [
+          {"pattern": "Generic AI-powered claims", "example": "AI-Powered Code Editor", "source": "INS-001", "reason": "Indistinguishable from 20 competitors"},
+          {"pattern": "Feature lists in headlines", "example": "Code, Test, Deploy — All in One", "source": "INS-013", "reason": "Too abstract, no emotional hook"},
+          {"pattern": "Buzzword-heavy copy", "example": "Revolutionize Your Development Workflow", "source": "cycle_1_baseline", "reason": "Triggers skepticism in technical audience"}
+        ],
+        "fatigue_rate_days": 21
+      },
+      "non_technical_builder": {
+        "winning": [
+          {"pattern": "No-code reassurance", "example": "Build Apps — No Coding Required", "source": "INS-003", "lift": "+41% CVR"},
+          {"pattern": "Describe-and-build framing", "example": "Describe Your App. We Build It.", "source": "INS-013", "lift": "+2.3x CTR"}
+        ],
+        "losing": [
+          {"pattern": "AI-forward messaging", "example": "AI App Builder", "source": "INS-003", "reason": "Non-technical audience cares about outcome not technology"},
+          {"pattern": "Technical jargon", "example": "Full-Stack AI Development", "source": "cycle_1_baseline", "reason": "Alienates target audience"}
+        ],
+        "fatigue_rate_days": 18
+      },
+      "enterprise_team": {
+        "winning": [
+          {"pattern": "Outcome framing", "example": "Unblock Your Team — Ship Internal Tools Today", "source": "INS-018", "lift": "+2.1x CVR"},
+          {"pattern": "Security qualifiers", "example": "SOC 2 Compliant AI Development", "source": "INS-016", "lift": "+2.8x CVR (EU)"}
+        ],
+        "losing": [
+          {"pattern": "Technology-forward framing", "example": "AI-Powered Development Platform", "source": "INS-018", "reason": "Enterprise buyers care about business outcomes"}
+        ],
+        "fatigue_rate_days": 28
+      }
+    },
+    "paid_social": {
+      "all": {
+        "winning": [
+          {"pattern": "Before/after transformation", "example": "I described an app → here it is running 3 minutes later", "source": "INS-007", "lift": "+2.1x engagement"},
+          {"pattern": "User-generated content", "example": "Real builder showing their project", "source": "INS-014", "lift": "+1.7x engagement"},
+          {"pattern": "Describe-and-watch hook", "example": "Describe what you want. Watch it get built.", "source": "INS-013", "lift": "+2.3x CTR"}
+        ],
+        "losing": [
+          {"pattern": "Feature announcement format", "example": "Introducing Agent 4 with Parallel Agents", "source": "INS-007", "reason": "Feels like a press release, not content"},
+          {"pattern": "Brand-produced polished content", "example": "Professional motion graphics", "source": "INS-014", "reason": "Lower trust signal than authentic UGC"}
+        ],
+        "fatigue_rate_days": 14
+      }
+    }
+  },
+  "ctas": {
+    "winning_by_segment": {
+      "developer": {"cta": "Start building", "source": "EXP-001", "note": "Action-oriented, assumes competence"},
+      "non_technical_builder": {"cta": "Build your first app", "source": "EXP-003", "note": "Milestone-oriented, inviting"},
+      "enterprise_team": {"cta": "Talk to sales", "source": "EXP-004", "note": "Direct, respects enterprise buying process"},
+      "student": {"cta": "Start for free", "source": "EXP-002", "note": "Removes financial barrier upfront"}
+    }
+  },
+  "formats": {
+    "paid_social": {
+      "top_performers": [
+        "15-30s screen recordings of build process",
+        "Before/after carousel (idea sketch → live app)",
+        "User testimonial quote cards",
+        "Speed build timelapse (60s → full app)"
+      ],
+      "declining": [
+        "Feature comparison tables",
+        "Product announcement graphics",
+        "Long-form demo videos (>60s)"
+      ]
+    },
+    "paid_search": {
+      "top_performers": [
+        "Question headline + specific benefit description + social proof extension",
+        "Time-specific headline + use-case description"
+      ]
+    },
+    "aso": {
+      "top_performers": [
+        "Screenshots showing design canvas (not code output)",
+        "App preview video: describe → build → deploy in 30s"
+      ],
+      "insight": "Visual canvas screenshots +19% install rate vs code screenshots (INS-020)"
+    }
+  },
+  "geo_modifiers": {
+    "us": {"lead_with": "social_proof", "avoid": "price_messaging"},
+    "in": {"lead_with": "free_tier", "modifier": "Free in first 3 words +40% CTR", "source": "INS-010"},
+    "eu": {"lead_with": "security", "modifier": "SOC 2 in headline +2.8x CVR for enterprise", "source": "INS-016"},
+    "latam": {"lead_with": "community", "avoid": "enterprise_framing"}
+  }
+}

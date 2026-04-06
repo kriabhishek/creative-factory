@@ -1,0 +1,147 @@
+{
+  "version": 3,
+  "last_updated": "2026-03-23T14:00:00Z",
+  "updated_by": "learning_loop_cycle_3",
+  "core": {
+    "category": "Agentic software creation platform",
+    "mission": "Empower the next billion software creators",
+    "tagline": "Creativity runs on Replit",
+    "for_who": "Anyone with an idea and an internet connection — from students to Fortune 500 teams",
+    "switching_from": ["Traditional IDEs", "No-code tools", "Hiring freelance devs", "Not building at all"],
+    "unique_value": "Turn natural language into deployed applications in minutes",
+    "proof_points": [
+      "85% of Fortune 500 use Replit",
+      "50M+ users globally",
+      "Zillow: 600 seats, 7,000 apps",
+      "Databricks, PayPal, Adobe ship internal tools daily",
+      "$400M Series D at $9B valuation"
+    ]
+  },
+  "by_segment": {
+    "developer": {
+      "hook": "Ship 10x faster. Your AI pair programmer handles the boring parts.",
+      "pain": "Context switching between tools, boilerplate code, deployment headaches",
+      "value_prop": "Parallel AI agents that write, test, and deploy simultaneously. One environment, zero setup.",
+      "proof": "Zillow runs 7,000 apps on Replit with 600 seats",
+      "cta": "Start building",
+      "avoid": "Don't position as AI that replaces developers — position as multiplier"
+    },
+    "non_technical_builder": {
+      "hook": "Describe what you want. Watch it get built.",
+      "pain": "Ideas stuck because you can't code. Engineering backlogs. $15K agency bills.",
+      "value_prop": "Talk to the Agent like a colleague. It asks questions, shows designs, iterates, deploys. No code.",
+      "proof": "Alex Meyers at Gusto: PM 10x easier",
+      "cta": "Build your first app",
+      "avoid": "Don't call them citizen developers — call them builders"
+    },
+    "enterprise_team": {
+      "hook": "Your ops team just became a software team. No new hires required.",
+      "pain": "IT backlog 6 months deep. Every department needs internal tools. Shadow IT everywhere.",
+      "value_prop": "Secure, production-grade internal tools. Built-in auth, databases, hosting. SOC 2. SSO.",
+      "proof": "85% of Fortune 500. Zillow: 600 seats.",
+      "cta": "Talk to sales",
+      "avoid": "Lead with outcomes not AI — AI is the how, not the why"
+    },
+    "student": {
+      "hook": "Learn by building real things, not toy exercises.",
+      "pain": "CS101 teaches sorting, not shipping. Dev environment setup eats half of every hackathon.",
+      "value_prop": "Zero setup. Browser-based. Build real, deployable apps from day one. Agent explains as it builds.",
+      "proof": "50M+ users. Largest community of builders learning by doing.",
+      "cta": "Start for free",
+      "avoid": "Don't be condescending about skill level"
+    }
+  },
+  "by_channel": {
+    "paid_search": {
+      "intent_signals": ["build app without coding", "ai code generator", "deploy app fast", "no code app builder", "ai software development"],
+      "messaging_angle": "Direct response, feature-benefit, answer the query precisely",
+      "format_constraints": {"headline_chars": 30, "description_chars": 90},
+      "winning_patterns": ["Question-format headlines +34% CTR (INS-001)", "Specific time savings beat vague claims +22% (INS-015)", "Social proof numbers in extensions +18% CVR (INS-008)"],
+      "fatigue_rate_days": 21
+    },
+    "paid_social": {
+      "messaging_angle": "Aspirational transformation, before/after, user stories",
+      "formats": ["15-30s screen recordings", "Before/after carousels", "User-generated build stories"],
+      "winning_patterns": ["Before/after 2.1x engagement vs feature announcements (INS-009)", "UGC outperforms brand content 1.7x (INS-014)", "India: free in first 3 words +40% CTR (INS-017)"],
+      "fatigue_rate_days": 14
+    },
+    "aso": {
+      "messaging_angle": "Utility-first, mobile-native, no code emphasis",
+      "keywords": ["ai app builder", "code on phone", "build app mobile", "no code builder"],
+      "format_constraints": {"title_chars": 30, "subtitle_chars": 30},
+      "segment_skew": "non_technical_builder"
+    },
+    "lifecycle": {
+      "messaging_angle": "Progressive activation: signup → first app → deployment → paid",
+      "sequence": [
+        {"day": 0, "message": "Welcome + Build your first app in 5 minutes tutorial CTA"},
+        {"day": 1, "message": "Celebration (if deployed) / Pick up where you left off (if abandoned)"},
+        {"day": 3, "message": "Social proof + template gallery"},
+        {"day": 7, "message": "Feature discovery (unused Agent capabilities)"},
+        {"day": 14, "message": "Upgrade prompt with value framing"}
+      ],
+      "winning_patterns": ["Specific templates 2.4x vs generic explore CTAs (INS-011)", "Celebration emails +31% D7 retention vs feature emails (INS-019)"]
+    }
+  },
+  "by_geo": {
+    "us": {
+      "budget_pct": 0.50,
+      "cpa_target": 45,
+      "lead_with": "Social proof, speed, professional credibility",
+      "tone": "Confident, direct, results-oriented",
+      "hooks": ["85% of Fortune 500 build on Replit", "From idea to production in one session"],
+      "avoid": "Price-led messaging"
+    },
+    "in": {
+      "budget_pct": 0.20,
+      "cpa_target": 8,
+      "lead_with": "Free tier, build without hiring devs, entrepreneurship",
+      "tone": "Aspirational, community-focused, opportunity-oriented",
+      "hooks": ["Build your startup for free", "No engineering team? No problem."],
+      "insight": "Free in first 3 words lifts CTR 40% (INS-017)",
+      "avoid": "Enterprise messaging"
+    },
+    "eu": {
+      "budget_pct": 0.20,
+      "cpa_target": 35,
+      "lead_with": "Privacy/security, team collaboration, professional development",
+      "tone": "Measured, trust-focused, GDPR-aware",
+      "hooks": ["SOC 2 compliant AI development", "Your team's secure build environment"],
+      "avoid": "Hype-y language"
+    },
+    "latam": {
+      "budget_pct": 0.10,
+      "cpa_target": 12,
+      "lead_with": "Community, builder identity, mobile-first",
+      "tone": "Energetic, community-driven, opportunity-focused",
+      "hooks": ["Join 50M+ builders worldwide", "Build on any device, ship everywhere"],
+      "note": "Mobile app positioning strongest here"
+    }
+  },
+  "performance_signals": [
+    {
+      "date": "2026-03-22",
+      "signal": "Non-technical segment CTR 2.3x higher with 'describe what you want' hook vs feature lists",
+      "source": "EXP-005",
+      "action": "Elevated describe framing to primary for non-tech across all channels"
+    },
+    {
+      "date": "2026-03-21",
+      "signal": "India geo responds 40% better to free in headline position 1",
+      "source": "EXP-004",
+      "action": "Added geo-specific pricing hook for IN"
+    },
+    {
+      "date": "2026-03-20",
+      "signal": "Question-format headlines +34% CTR vs statements for developer segment in paid search",
+      "source": "EXP-003",
+      "action": "Updated creative-dna.json; question format is now default for paid search"
+    },
+    {
+      "date": "2026-03-18",
+      "signal": "Enterprise segment converts 2.1x on unblock your team vs AI-powered development",
+      "source": "EXP-002",
+      "action": "Shifted enterprise messaging from technology-forward to outcome-forward"
+    }
+  ]
+}

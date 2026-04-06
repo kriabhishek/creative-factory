@@ -34,7 +34,7 @@ BASE = ~/.claude/data/creative-factory
 
 Config:        $BASE/config.json
 Positioning:   $BASE/positioning/active.json
-               $BASE/positioning/replit-positioning.md
+               $BASE/positioning/positioning.md
 Knowledge:     $BASE/knowledge/insights.json
                $BASE/knowledge/creative-dna.json
                $BASE/knowledge/fatigue-signals.json
@@ -49,7 +49,7 @@ Scripts:       $BASE/scripts/thompson.py
 Creatives:     $BASE/creatives/YYYY-MM-DD/batch-{id}/
 Design:        $BASE/creatives/DESIGN-SYSTEM.md
 Mockup Script: ~/.claude/tools/playwright/render-ad-mockup.js
-Brand Assets:  $BASE/creatives/replit-screenshot-*.png
+Brand Assets:  $BASE/creatives/brand-assets/
 Reports:       $BASE/reports/YYYY-MM-DD.md
 ```
 
@@ -61,18 +61,30 @@ Reports:       $BASE/reports/YYYY-MM-DD.md
 Full pipeline. Loads positioning, reads knowledge layer, generates creatives for all configured channels, sets up experiments.
 
 ### `/creative-factory init`
-Initialize or reset brand config. Import a product positioning document. Set channels, geos, segments, budgets.
+Initialize or reset brand config. Walks the user through setup:
+
+1. **Brand basics**: Ask for brand name, product name, category, tagline, brand color
+2. **Voice**: Ask for tone attributes, preferred vocabulary, words to avoid
+3. **Channels**: Which channels are active (paid_search, paid_social, aso, lifecycle)?
+4. **Geos**: Which geos, with budget allocation %, CPA targets, and currency
+5. **Segments**: Who are the customer segments? For each, ask for hook, pain point, value prop, proof point, CTA, and messaging to avoid
+6. **Conversion funnel**: What are the conversion events in order (e.g., signup, first_action, paid)?
+7. **Budget**: Total monthly budget, payback target days
+8. **Positioning document**: Ask user to paste or provide a path to their product positioning doc. Save to `positioning/positioning.md`
+9. **Design system**: Ask for brand colors, fonts, logo details. Generate `creatives/DESIGN-SYSTEM.md`
+
+Populate `config.json`, `positioning/active.json`, and `creatives/DESIGN-SYSTEM.md` from the answers.
 
 ### `/creative-factory generate [channel]`
 Generate creative variants for a specific channel (paid_search, paid_social, aso, lifecycle) or all channels if none specified.
 
 **Generation pipeline:**
 1. Load `config.json` (brand voice, channels, geos, segments)
-2. Load `positioning/active.json` (what to say — messages, hooks, proof points)
-3. Load `knowledge/creative-dna.json` (how to say it — winning patterns, losing patterns)
+2. Load `positioning/active.json` (what to say -- messages, hooks, proof points)
+3. Load `knowledge/creative-dna.json` (how to say it -- winning patterns, losing patterns)
 4. Load `knowledge/insights.json` (specific constraints and boosts)
-5. Load `knowledge/fatigue-signals.json` (what to avoid — recently fatigued patterns)
-6. For each channel × geo × segment combination:
+5. Load `knowledge/fatigue-signals.json` (what to avoid -- recently fatigued patterns)
+6. For each channel x geo x segment combination:
    a. Select applicable insights (filter by channel, geo, segment)
    b. Apply winning patterns from creative-dna
    c. Avoid losing patterns and fatigued formats
@@ -86,12 +98,11 @@ Generate creative variants for a specific channel (paid_search, paid_social, aso
 
 **Platform Routing Table (paid_social):**
 
-| Platform | Best For | Why |
-|----------|---------|-----|
-| **Meta (IG/FB)** | Non-technical builders, Students | Visual-first, broad reach, UGC performs well, carousel native |
-| **LinkedIn** | Enterprise teams, Developers (B2B) | Professional context, company-size targeting |
-| **Twitter/X** | Developers, Builder community | Tech audience, "look what I built" culture |
-| **YouTube Shorts/TikTok** | Students, Non-technical (India, LATAM) | Short-form video, mobile-first geos |
+Route each paid social variant to the best platform based on the configured segments. The routing should consider:
+- Visual-first platforms (Meta/IG) for broad consumer segments
+- Professional platforms (LinkedIn) for enterprise/B2B segments
+- Tech-community platforms (Twitter/X) for developer/technical segments
+- Short-form video platforms (YouTube Shorts/TikTok) for younger demographics and mobile-first geos
 
 Every generated paid_social variant MUST specify: Primary Platform, Secondary Platform, and rationale.
 
@@ -101,8 +112,8 @@ Every generated paid_social variant MUST specify: Primary Platform, Secondary Pl
 - Headline: max 30 characters
 - Description: max 90 characters
 - Generate 4-6 headline/description combinations per segment
-- Always include one question-format headline (INS-001)
-- Always include specific numbers/times (META-003)
+- Always include one question-format headline when insights support it
+- Always include specific numbers/times when available
 - Add sitelink and callout extension copy
 
 **Paid Social:**
@@ -111,26 +122,21 @@ Every generated paid_social variant MUST specify: Primary Platform, Secondary Pl
 - Generate 3-4 variants per segment
 - Specify format (video, carousel, single image)
 - Include suggested visual direction
-- Favor before/after and UGC-style framing (INS-007, INS-014)
 
 **ASO:**
 - App title: max 30 chars
 - Subtitle: max 30 chars
 - Generate keyword-optimized title/subtitle combinations
 - Include screenshot description recommendations
-- Canvas screenshots > code screenshots for non-tech (INS-020)
 
 **Lifecycle:**
 - Subject line + preview text + body outline
-- Generate for each stage in the activation sequence (Day 0, 1, 3, 7, 14)
-- Specific templates > generic CTAs (INS-005)
-- Include celebration triggers (INS-006)
+- Generate for each stage in the configured activation sequence
+- Specific templates > generic CTAs
+- Include celebration triggers for key milestones
 
-**Geo modifiers (ALWAYS apply):**
-- US: Lead with social proof, avoid price messaging
-- India: "Free" in first 3 words of headline (INS-010), "learn to build" for students (INS-011)
-- EU: Security qualifiers for enterprise (INS-016), measured tone
-- LATAM: Community framing, mobile-first
+**Geo modifiers (ALWAYS apply based on config):**
+Read geo-specific messaging rules from `config.json` geos and `positioning/active.json` by_geo. Apply the configured lead_with, tone, and avoid rules for each geo.
 
 ### `/creative-factory ingest`
 Load performance data. Accepts:
@@ -145,16 +151,16 @@ Run performance monitoring against all active experiments and creatives.
 
 **Alert rules (from config.json):**
 
-1. **Creative Fatigue**: CTR declines >20% over 14-day window
+1. **Creative Fatigue**: CTR declines beyond configured threshold over configured window
    - Compare current 3-day rolling avg CTR vs peak CTR
    - Cross-reference with fatigue-signals.json for expected patterns
    - If decline > threshold: flag alert, recommend refresh, suggest replacement from creative-dna.json winning patterns
 
-2. **CAC Shift**: CPA increases >30% over 7-day window
-   - Compare current 3-day rolling avg CPA vs 7-day baseline
+2. **CAC Shift**: CPA increases beyond configured threshold over configured window
+   - Compare current 3-day rolling avg CPA vs baseline
    - If shift detected: identify geo + channel, check for competitor entry signals, recommend budget reallocation
 
-3. **Payback Drift**: Days-to-payback increases >25% over 14-day window
+3. **Payback Drift**: Days-to-payback increases beyond configured threshold over configured window
    - Track conversion-to-paid rate by cohort
    - If drift detected: flag, recommend tightening audience targeting or lifecycle messaging changes
 
@@ -169,7 +175,7 @@ Run Thompson Sampling budget allocation.
 
 **Process:**
 1. Read `performance/allocation.json` for current arm states
-2. Run `scripts/thompson.py` — outputs new allocation percentages
+2. Run `scripts/thompson.py` -- outputs new allocation percentages
 3. Show before/after allocation with:
    - Beta distribution parameters per arm
    - Expected value (mean) per arm
@@ -178,13 +184,13 @@ Run Thompson Sampling budget allocation.
 4. Update `performance/allocation.json`
 5. Flag any arms that should be retired (>95% confidence they're losing)
 
-**Key principle:** Balance exploitation (shift budget to winners) with exploration (keep sampling underexplored arms). Default exploration rate: 15%.
+**Key principle:** Balance exploitation (shift budget to winners) with exploration (keep sampling underexplored arms). Default exploration rate from config.
 
 ### `/creative-factory learn`
 Extract insights from completed experiments and performance data. This is how the system gets smarter.
 
 **Learning pipeline:**
-1. Read `experiments/active.json` — check for experiments ready to close (confidence > threshold OR sample size reached)
+1. Read `experiments/active.json` -- check for experiments ready to close (confidence > threshold OR sample size reached)
 2. For each closeable experiment:
    a. Calculate final statistics (lift, confidence interval, effect size)
    b. Determine winner/loser/inconclusive
@@ -198,7 +204,7 @@ Extract insights from completed experiments and performance data. This is how th
    e. Update `knowledge/creative-dna.json` winning/losing patterns
    f. Move experiment to `experiments/completed.json`
 3. Check for meta-pattern emergence:
-   - If 3+ insights point in the same direction → synthesize meta-pattern
+   - If 3+ insights point in the same direction -> synthesize meta-pattern
    - Append to `insights.json` meta_patterns array
 4. Generate new hypotheses:
    - Combine existing insights in untested combinations
@@ -216,7 +222,7 @@ Generate a daily performance digest.
 **Report structure:**
 1. **Headlines**: Top 3 most important things today (alerts, wins, losses)
 2. **Active Experiments**: Status, confidence levels, projected completion
-3. **Performance by Channel × Geo**: CPA, CTR, CVR heatmap (text table)
+3. **Performance by Channel x Geo**: CPA, CTR, CVR heatmap (text table)
 4. **Knowledge Layer Growth**: New insights this cycle, total insights, meta-patterns
 5. **Budget Allocation**: Current Thompson Sampling state, recent shifts
 6. **Action Items**: What to do next (experiments to launch, creatives to refresh, budgets to shift)
@@ -231,16 +237,17 @@ Dashboard overview.
 ```
 === CREATIVE FACTORY STATUS ===
 
+Brand:               {brand_name} ({product_name})
 Knowledge Layer:     {N} insights | {M} meta-patterns | Cycle {C}
 Active Experiments:  {X} running | {Y} ready to close
 Hypotheses Queued:   {Z} pending
 Active Alerts:       {A} ({critical} critical, {warning} warning)
 Monthly Budget:      ${B} | Spent: ${S} ({pct}%)
 
-Last Learn Cycle:    {date} — extracted {n} new insights
+Last Learn Cycle:    {date} -- extracted {n} new insights
 Next Refresh Due:    {channel} {geo} {segment} in {d} days
 
-Compound Growth:     Cycle 1 avg CTR: {x}% → Cycle {C} avg CTR: {y}% (+{lift}%)
+Compound Growth:     Cycle 1 avg CTR: {x}% -> Cycle {C} avg CTR: {y}% (+{lift}%)
 ```
 
 ---
@@ -248,22 +255,22 @@ Compound Growth:     Cycle 1 avg CTR: {x}% → Cycle {C} avg CTR: {y}% (+{lift}%
 ## Design System & Mockup Generation
 
 ### Design System
-All visual mockups MUST follow `$BASE/creatives/DESIGN-SYSTEM.md`. Key tokens:
+All visual mockups MUST follow `$BASE/creatives/DESIGN-SYSTEM.md`. This file is generated during `/creative-factory init` based on the brand's colors, fonts, and visual identity.
 
-| Token | Value | Usage |
-|-------|-------|-------|
-| `brand-orange` | `#FF3C00` | CTAs, logo, hero backgrounds |
-| `dark-bg` | `#0E1525` | Product UI, dark-theme ads |
-| `dark-surface` | `#1A2233` | Cards, panels |
-| `dark-border` | `#2A3548` | Borders, dividers |
-| `light-bg` | `#F5F1EB` | Marketing pages, testimonials |
-| `green-live` | `#28CA41` | Live badges, compliance, success |
+The design system should define:
+- Color palette with named tokens and hex values
+- Typography (font family, weights, sizes for headlines/body/captions)
+- Layout patterns (2-4 reusable ad layout templates)
+- Ad format specs per platform (canvas sizes, safe zones)
+- Component library (logo block, CTA button, browser chrome if applicable)
+- Voice rules for visual copy
+- Design don'ts
 
 ### Layout Patterns (choose per variant)
-1. **Orange Feature Panel** — Orange bg left (headline + copy), dark product screenshot right. For: feature callouts, capability demos. (LinkedIn, Meta)
-2. **Dark Product Showcase** — Full dark bg, layered product screenshots, white headline centered. For: developer ads, product demos. (Twitter/X)
-3. **Light Testimonial Grid** — Off-white bg, white quote cards. For: social proof ads, carousel slides. (Meta, LinkedIn)
-4. **Hero Banner** — White/light bg, large bold headline, logo strip, orange CTA. For: brand awareness. (All platforms)
+1. **Feature Panel** -- Brand color bg left (headline + copy), product screenshot right
+2. **Dark Product Showcase** -- Full dark bg, product screenshots, white headline centered
+3. **Light Testimonial Grid** -- Off-white bg, white quote cards with customer testimonials
+4. **Hero Banner** -- White/light bg, large bold headline, logo strip, colored CTA
 
 ### Ad Format Specs
 | Platform | Ratio | Canvas Size |
@@ -276,14 +283,13 @@ All visual mockups MUST follow `$BASE/creatives/DESIGN-SYSTEM.md`. Key tokens:
 ### Generating Mockups
 When user requests a visual mockup:
 1. Read `$BASE/creatives/DESIGN-SYSTEM.md` for tokens, patterns, and don'ts
-2. Reference `$BASE/creatives/replit-screenshot-*.png` for visual inspiration
+2. Reference brand assets in `$BASE/creatives/brand-assets/` for visual inspiration
 3. Write an HTML template to `~/.claude/tools/playwright/render-ad-mockup.js` using the correct canvas size for the target platform
 4. Render with Playwright: `cd ~/.claude/tools/playwright && node render-ad-mockup.js`
 5. Save output to `$BASE/creatives/{variant-id}-{platform}-mockup.png`
-6. Also copy to `~/abhishek-code/recruiting/replit/creative-factory/creatives/` for the local repo
 
-### Design Don'ts
-- No gradients on orange (flat only)
+### Design Don'ts (Defaults)
+- No gradients on brand color (flat only)
 - No stock photography or generic AI imagery
 - No more than 2 font weights per ad
 - No text smaller than 14px
@@ -296,11 +302,11 @@ When user requests a visual mockup:
 1. **ALWAYS read the knowledge layer before generating.** Never generate blind. The whole point is compound learning.
 2. **ALWAYS cite insights by ID** in generated creatives. This is the audit trail that makes compounding visible.
 3. **ALWAYS apply /humanizer** to all generated copy. No AI slop. Ever.
-4. **ALWAYS apply geo modifiers.** Never generate one-size-fits-all. META-001 confirms geo-specific is 1.8x more effective.
+4. **ALWAYS apply geo modifiers** from config. Never generate one-size-fits-all.
 5. **NEVER overwrite insights.** Only append. The knowledge layer is append-only. History is the asset.
 6. **Present before publishing.** Show the user all generated creatives and wait for approval before saving to the creatives directory.
 7. **Track everything.** Every generation, every experiment, every insight, every allocation decision gets a timestamp and an ID.
-8. **Explain the math.** When running Thompson Sampling or statistical tests, show your work. Jonathan cares about rigor.
+8. **Explain the math.** When running Thompson Sampling or statistical tests, show your work.
 
 ---
 
@@ -309,22 +315,20 @@ When user requests a visual mockup:
 The system's value compounds through three reinforcing loops:
 
 **Loop 1: Creative Quality**
-Generate → Test → Learn what works → Generate better next time
+Generate -> Test -> Learn what works -> Generate better next time
 (insights.json + creative-dna.json grow every cycle)
 
 **Loop 2: Experiment Velocity**
-Learn → Generate hypotheses → Test faster → Learn more
+Learn -> Generate hypotheses -> Test faster -> Learn more
 (hypotheses.json populated from pattern combinations, not guesses)
 
 **Loop 3: Positioning Evolution**
-Test → Discover segment/geo truths → Update positioning → More targeted generation
+Test -> Discover segment/geo truths -> Update positioning -> More targeted generation
 (active.json performance_signals update the source-of-truth messaging)
 
 After N cycles, the system has:
-- A growing library of proven patterns by channel × geo × segment
+- A growing library of proven patterns by channel x geo x segment
 - Fatigue signatures that predict when creatives will decay
 - Auto-generated hypotheses derived from insight combinations
 - A positioning document that reflects reality, not assumptions
 - Budget allocation that mathematically optimizes for ROI
-
-This is the "self-improving system that compounds every insight" described in the JD. It's not a prompt — it's a learning machine.
